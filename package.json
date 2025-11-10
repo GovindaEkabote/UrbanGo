@@ -5,15 +5,22 @@
   "scripts": {
     "test": "echo \"No tests yet\" && exit 0",
     "dev": "nodemon src/server.js",
+<<<<<<< HEAD
     "start": "node server.js",
     "prepare": "husky"
+=======
+    "start": "node server.js"
+>>>>>>> dfa71a8 (feat: setup folder structure)
   },
   "keywords": [],
   "author": "govindaekbote",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+<<<<<<< HEAD
     "husky": "^9.1.7",
+=======
+>>>>>>> dfa71a8 (feat: setup folder structure)
     "lint-staged": "^15.5.2",
     "nodemon": "^3.1.10"
   }
