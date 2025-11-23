@@ -4,3 +4,10 @@ git commit -am 'feat: Message'
 =======
 git push origin master  
 >>>>>>> dfa71a8 (feat: setup folder structure)
+
+
+
+/*
+npm start
+npm run dev
+*/
