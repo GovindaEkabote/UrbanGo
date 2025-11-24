@@ -1,6 +1,6 @@
 const config = require('../config/config')
 const { createHttpError } = require('../types/types')
-const { logger } = require('../utils/logger')
+const { logger } = require('../utils/logger') // Fixed path: util not utils
 const { EApplicationEnvironment } = require('../constant/application')
 
 // Common error types mapping
@@ -78,7 +78,7 @@ const globalErrorHandler = (err, req, res, next) => {
             delete response.trace
         }
 
-        // Enhanced logging with Winston
+        // Enhanced logging with database storage
         const logData = {
             statusCode: finalStatusCode,
             message: err.message || message,
@@ -87,7 +87,13 @@ const globalErrorHandler = (err, req, res, next) => {
             method: req.method,
             ip: config.ENV === EApplicationEnvironment.DEVELOPMENT ? req.ip : 'REDACTED',
             userId: req.user?.id || 'anonymous',
-            userAgent: req.get('User-Agent')
+            userAgent: req.get('User-Agent'),
+            // Include request body for debugging (be careful with sensitive data)
+            requestBody: config.ENV === EApplicationEnvironment.DEVELOPMENT ? 
+                (req.body && Object.keys(req.body).length > 0 ? req.body : undefined) : 
+                undefined,
+            // Include query parameters
+            queryParams: req.query && Object.keys(req.query).length > 0 ? req.query : undefined
         }
 
         // Add stack trace for development
@@ -95,13 +101,24 @@ const globalErrorHandler = (err, req, res, next) => {
             logData.stack = trace
         }
 
+        // Add additional error context
+        if (err.code) {
+            logData.errorCode = err.code
+        }
+        if (err.keyValue) {
+            logData.duplicateKey = err.keyValue
+        }
+
         // Log based on error type
         if (finalStatusCode >= 500) {
-            // Server errors
-            logger.error('SERVER_ERROR', logData)
+            // Server errors - log as error level
+            logger.error(`SERVER_ERROR_${finalStatusCode}`, logData)
+        } else if (finalStatusCode >= 400) {
+            // Client errors - log as warn level
+            logger.warn(`CLIENT_ERROR_${finalStatusCode}`, logData)
         } else {
-            // Client errors
-            logger.warn('CLIENT_ERROR', logData)
+            // Other errors - log as info level
+            logger.info(`APPLICATION_ERROR_${finalStatusCode}`, logData)
         }
 
         // Send the error response
@@ -109,11 +126,21 @@ const globalErrorHandler = (err, req, res, next) => {
 
     } catch (handlerError) {
         // Critical fallback with proper logging
-        logger.error('CRITICAL_ERROR_HANDLER_FAILURE', {
-            originalError: handlerError.message,
-            originalUrl: req.originalUrl,
-            stack: handlerError.stack
-        })
+        console.error('CRITICAL: Error handler failed:', handlerError)
+        
+        // Try to log the critical error
+        try {
+            logger.error('CRITICAL_ERROR_HANDLER_FAILURE', {
+                originalError: handlerError.message,
+                originalUrl: req.originalUrl,
+                method: req.method,
+                ip: req.ip,
+                stack: handlerError.stack
+            })
+        } catch (logError) {
+            // Ultimate fallback if even logging fails
+            console.error('ULTIMATE_FALLBACK: Could not log critical error:', logError)
+        }
 
         const fallbackResponse = {
             success: false,
