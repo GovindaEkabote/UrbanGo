@@ -9,6 +9,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname,'../','public')))
 
 // Router
+app.use('/api/v1/health', require('./router/healthRoutes'))
 app.use('/api/v1',require('./router/apiRouter'))
 
 // 404 handler for unmatched routes
