@@ -23,6 +23,7 @@
     "dotenv-flow": "^4.1.0",
     "express": "^5.1.0",
     "logger": "^0.0.1",
+    "mongoose": "^8.20.1",
     "winston": "^3.18.3"
   }
 }
