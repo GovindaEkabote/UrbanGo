@@ -1,4 +1,5 @@
 const { httpResponse, httpError } = require("../utils/httpResponse")
+const { logger } = require('../utils/logger')
 
 exports.self = (req, res) => {
     try {
@@ -20,34 +21,16 @@ exports.self = (req, res) => {
 }
 
 exports.getUserById = (req, res) => {
-    try {
-        const { id } = req.params
-        
-        // Simulate validation error
-        if (!id || isNaN(id)) {
-            const error = new Error('Invalid user ID')
-            error.status = 400
-            throw error
-        }
-        
-        // Simulate user not found
-        if (id === '999') {
-            const error = new Error('User not found')
-            error.status = 404
-            throw error
-        }
-        
-        const data = { 
-            user: { 
-                id: parseInt(id), 
-                name: 'Demo User',
-                email: `user${id}@example.com`
-            } 
-        }
-        
-        return httpResponse(req, res, 200, 'User found successfully', data)
-        
+   try {
+        logger.info('Fetching user', { userId: req.params.id })
+        // Your logic here
+        logger.debug('User data retrieved', { user: userData })
+        return httpResponse(req, res, 200, 'Success', userData)
     } catch (error) {
+        logger.error('Failed to fetch user', { 
+            userId: req.params.id, 
+            error: error.message 
+        })
         return httpError(req, res, error)
     }
 }

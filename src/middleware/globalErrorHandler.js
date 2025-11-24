@@ -78,34 +78,37 @@ const globalErrorHandler = (err, req, res, next) => {
             delete response.trace
         }
 
+        // Enhanced logging with Winston
+        const logData = {
+            statusCode: finalStatusCode,
+            message: err.message || message,
+            originalError: err.name,
+            url: req.originalUrl,
+            method: req.method,
+            ip: config.ENV === EApplicationEnvironment.DEVELOPMENT ? req.ip : 'REDACTED',
+            userId: req.user?.id || 'anonymous',
+            userAgent: req.get('User-Agent')
+        }
+
+        // Add stack trace for development
+        if (includeTrace) {
+            logData.stack = trace
+        }
+
         // Log based on error type
         if (finalStatusCode >= 500) {
-            // Server errors - log with full details
-            logger.error(`SERVER_ERROR_${finalStatusCode}`, {
-                message: err.message || message,
-                originalError: err.name,
-                url: req.originalUrl,
-                method: req.method,
-                ip: config.ENV === EApplicationEnvironment.DEVELOPMENT ? req.ip : 'REDACTED',
-                userId: req.user?.id || 'anonymous',
-                stack: includeTrace ? trace : 'REDACTED'
-            })
+            // Server errors
+            logger.error('SERVER_ERROR', logData)
         } else {
-            // Client errors - log with less detail
-            logger.warn(`CLIENT_ERROR_${finalStatusCode}`, {
-                message: err.message || message,
-                originalError: err.name,
-                url: req.originalUrl,
-                method: req.method,
-                userId: req.user?.id || 'anonymous'
-            })
+            // Client errors
+            logger.warn('CLIENT_ERROR', logData)
         }
 
         // Send the error response
         return res.status(finalStatusCode).json(response)
 
     } catch (handlerError) {
-        // Critical fallback
+        // Critical fallback with proper logging
         logger.error('CRITICAL_ERROR_HANDLER_FAILURE', {
             originalError: handlerError.message,
             originalUrl: req.originalUrl,
