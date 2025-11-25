@@ -26,6 +26,7 @@
     "helmet": "^8.1.0",
     "logger": "^0.0.1",
     "mongoose": "^8.20.1",
+    "rate-limiter-flexible": "^8.3.0",
     "winston": "^3.18.3",
     "winston-mongodb": "^7.0.1"
   }
