@@ -52,7 +52,7 @@ A robust, scalable Node.js REST API built with Express.js, MongoDB, and modern d
         docker-compose up -d
 5. 🏗 Project Structure
 
-'''src/
+src/
 ├── config/                 # Configuration files
 │   ├── config.js          # Environment configuration
 │   └── database.js        # Database configuration
@@ -83,7 +83,7 @@ A robust, scalable Node.js REST API built with Express.js, MongoDB, and modern d
 ├── constants/           # Application constants
 │   ├── application.js
 │   └── responseMessage.js
-└── app.js              # Express application setup'''
+└── app.js              # Express application setup
 
 
 # 📈 Monitoring & Logging
