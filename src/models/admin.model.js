@@ -1,7 +1,6 @@
-// models/Admin.js
-import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
-import { v4 as uuidv4 } from "uuid";
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+const { v4: uuidv4 } = require("uuid");
 
 const SALT_ROUNDS = Number(process.env.BCRYPT_SALT_ROUNDS) || 12;
 
@@ -242,4 +241,4 @@ AdminSchema.index({ status: 1 });
 AdminSchema.index({ isDeleted: 1 });
 
 // Export
-export default mongoose.model("Admin", AdminSchema);
+module.exports = mongoose.model("Admin", AdminSchema);

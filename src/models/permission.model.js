@@ -1,6 +1,6 @@
 // models/Permission.js
-import mongoose from 'mongoose';
-import { v4 as uuidv4 } from 'uuid';
+const mongoose = require("mongoose");
+const { v4: uuidv4 } = require("uuid");
 
 const PermissionSchema = new mongoose.Schema({
   permissionId: {
@@ -59,7 +59,7 @@ const PermissionSchema = new mongoose.Schema({
   metadata: { type: mongoose.Schema.Types.Mixed, default: {} },
 
   // audit
-  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'Admin', required: true },
+  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'Admin' },
   updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'Admin' },
 
   // soft delete
@@ -122,4 +122,5 @@ PermissionSchema.index({ key: 1 }, { unique: true });
 PermissionSchema.index({ module: 1, category: 1 });
 PermissionSchema.index({ createdAt: -1 });
 
-export default mongoose.model('Permission', PermissionSchema);
+
+module.exports = mongoose.model('Permission', PermissionSchema)

@@ -1,6 +1,6 @@
 // models/Role.js
-import mongoose from "mongoose";
-import { v4 as uuidv4 } from "uuid";
+const mongoose = require("mongoose");
+const { v4: uuidv4 } = require("uuid");
 
 const RoleSchema = new mongoose.Schema(
   {
@@ -81,11 +81,19 @@ RoleSchema.virtual("displayRoleName").get(function () {
 });
 
 // Validate permissions array at save time (non-empty and unique)
-RoleSchema.path("permissions").validate(function (perms) {
-  if (!perms || !Array.isArray(perms) || perms.length === 0) return false;
-  const setSize = new Set(perms.map(String)).size;
-  return setSize === perms.length;
-}, "Role must have at least one unique permission");
+// In Role.js - Add this validation
+RoleSchema.path('permissions').validate({
+  validator: function(perms) {
+    if (!perms || !Array.isArray(perms)) return false;
+    if (perms.length === 0) return false;
+    
+    // Check for duplicates
+    const ids = perms.map(id => id.toString());
+    const uniqueIds = [...new Set(ids)];
+    return ids.length === uniqueIds.length;
+  },
+  message: 'Role must have at least one unique permission'
+});
 
 // Protect system roles from being soft-deleted via .save()
 RoleSchema.pre("save", function (next) {
@@ -147,4 +155,4 @@ RoleSchema.index({ roleName: 1 }, { unique: true });
 RoleSchema.index({ level: 1 });
 RoleSchema.index({ createdAt: -1 });
 
-export default mongoose.model("Role", RoleSchema);
+module.exports = mongoose.model("Role", RoleSchema);
