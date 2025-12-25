@@ -1,4 +1,5 @@
 const Permission = require("../models/permission.model");
+const mongoose = require("mongoose");
 
 class PermissionService {
   async createPermission(data, adminId) {
@@ -56,6 +57,23 @@ class PermissionService {
     }
     return data;
   }
+
+  async getPermissionById(id) {
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    const err = new Error("Invalid permission ID");
+    err.statusCode = 400;
+    throw err;
+  }
+
+  const permission = await Permission.findById(id);
+  if (!permission) {
+    const err = new Error("Permission not found");
+    err.statusCode = 404;
+    throw err;
+  }
+
+  return permission;
+}
 }
 
 module.exports = PermissionService;

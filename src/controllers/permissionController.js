@@ -66,3 +66,20 @@ exports.getAllPermissions = async (req, res, next) => {
     });
   }
 };
+
+exports.getById = async (req, res, next) => {
+  try {
+    const permission = await permissionService.getPermissionById(req.params.id);
+
+    res.status(200).json({
+      success: true,
+      data: permission,
+    });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({
+      success: false,
+      message: error.message || "Internal server error",
+    });
+  }
+};
+
