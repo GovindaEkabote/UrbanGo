@@ -22,3 +22,30 @@ exports.createPermission = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.createBulkPermission = async (req, res, next) => {
+  try {
+    const permissions = req.body.permissions;
+
+    if (!Array.isArray(permissions) || permissions.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Permissions array is required",
+      });
+    }
+
+    const result = await permissionService.createBulkPermission(
+      permissions,
+      req.admin?._id || null
+    );
+
+    res.status(201).json({
+      success: true,
+      message: "Permissions processed successfully",
+      data: result,
+    });
+  } catch (error) {
+    console.log("Error in createBulkPermission controller");
+    next(error)
+  }
+};
