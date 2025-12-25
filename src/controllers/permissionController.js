@@ -46,6 +46,23 @@ exports.createBulkPermission = async (req, res, next) => {
     });
   } catch (error) {
     console.log("Error in createBulkPermission controller");
-    next(error)
+    next(error);
+  }
+};
+
+exports.getAllPermissions = async (req, res, next) => {
+  try {
+    const data = await permissionService.getAllPermission();
+
+    res.status(200).json({
+      success: true,
+      count: data.length,
+      data: data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };

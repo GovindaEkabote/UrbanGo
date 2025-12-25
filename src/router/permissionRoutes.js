@@ -5,5 +5,6 @@ const bootstrapGuard = require("../middleware/bootstrapMiddleware");
 
 router.post("/", bootstrapGuard, permissionController.createPermission);
 router.post("/bulk", bootstrapGuard, permissionController.createBulkPermission);
+router.get("/get", bootstrapGuard, permissionController.getAllPermissions);
 
 module.exports = router;

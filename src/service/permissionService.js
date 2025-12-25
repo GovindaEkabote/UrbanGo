@@ -48,6 +48,14 @@ class PermissionService {
       skipped: permissions.length - inserted.length,
     };
   }
+
+  async getAllPermission() {
+    const data = await Permission.find({});
+    if (data.length === 0) {
+      throw new Error("No data available");
+    }
+    return data;
+  }
 }
 
 module.exports = PermissionService;
