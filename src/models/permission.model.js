@@ -40,7 +40,7 @@ const PermissionSchema = new mongoose.Schema({
         'USERS', 'DRIVERS', 'RIDES', 'PRICING', 'FINANCE',
         'SUPPORT', 'SYSTEM', 'ANALYTICS', 'PERMISSIONS',
         'ROLES', 'ADMINS', 'VEHICLES', 'LOCATIONS', 'NOTIFICATIONS',
-        'REPORTS', 'SETTINGS', 'AUDIT', 'BACKUP'
+        'REPORTS', 'SETTINGS', 'AUDIT', 'BACKUP','DEMO'
       ],
       message: '{VALUE} is not a valid module'
     },
@@ -49,7 +49,7 @@ const PermissionSchema = new mongoose.Schema({
   category: {
     type: String,
     required: true,
-    enum: ['READ', 'WRITE', 'DELETE', 'MANAGE'],
+    enum: ['READ', 'WRITE', 'DELETE', 'MANAGE','DEMO'],
     default: 'MANAGE',
     index: true
   },
@@ -83,7 +83,7 @@ PermissionSchema.virtual('moduleName').get(function () {
     FINANCE: 'Finance', SUPPORT: 'Support', SYSTEM: 'System', ANALYTICS: 'Analytics',
     PERMISSIONS: 'Permissions', ROLES: 'Roles', ADMINS: 'Admins', VEHICLES: 'Vehicles',
     LOCATIONS: 'Locations', NOTIFICATIONS: 'Notifications', REPORTS: 'Reports',
-    SETTINGS: 'Settings', AUDIT: 'Audit', BACKUP: 'Backup'
+    SETTINGS: 'Settings', AUDIT: 'Audit', BACKUP: 'Backup',DEMO: 'demo'
   };
   return map[this.module] || this.module;
 });

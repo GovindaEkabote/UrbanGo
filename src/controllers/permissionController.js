@@ -100,3 +100,21 @@ exports.getByIdForUpdate = async (req, res, next) => {
     });
   }
 };
+
+exports.getByIdForDelete = async (req, res, next) => {
+  try {
+    const deletePermission = await permissionService.deletePermissionById(
+      req.params.id
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Permission deleted successfully",
+    });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({
+      success: false,
+      message: error.message || "Internal server error",
+    });
+  }
+};

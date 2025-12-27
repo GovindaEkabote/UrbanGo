@@ -7,7 +7,16 @@ router.post("/", bootstrapGuard, permissionController.createPermission);
 router.post("/bulk", bootstrapGuard, permissionController.createBulkPermission);
 router.get("/get", bootstrapGuard, permissionController.getAllPermissions);
 router.get("/get/:id", bootstrapGuard, permissionController.getById);
-router.put("/update/:id", bootstrapGuard, permissionController.getByIdForUpdate);
+router.put(
+  "/update/:id",
+  bootstrapGuard,
+  permissionController.getByIdForUpdate
+);
 
+router.delete(
+  "/delete/:id",
+  bootstrapGuard,
+  permissionController.getByIdForDelete
+);
 
 module.exports = router;

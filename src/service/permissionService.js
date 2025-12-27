@@ -76,29 +76,45 @@ class PermissionService {
   }
 
   async updatePermission(id, updateData) {
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    const err = new Error("Invalid permission ID");
-    err.statusCode = 400;
-    throw err;
-  }
-
-  const updatedPermission = await Permission.findOneAndUpdate(
-    { _id: id },            // ✅ filter object
-    { $set: updateData },   // ✅ explicit update
-    {
-      new: true,
-      runValidators: true,
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      const err = new Error("Invalid permission ID");
+      err.statusCode = 400;
+      throw err;
     }
-  );
 
-  if (!updatedPermission) {
-    const err = new Error("Permission not found");
-    err.statusCode = 404;
-    throw err;
+    const updatedPermission = await Permission.findOneAndUpdate(
+      { _id: id },
+      { $set: updateData },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    if (!updatedPermission) {
+      const err = new Error("Permission not found for update");
+      err.statusCode = 404;
+      throw err;
+    }
+    return updatedPermission;
   }
 
-  return updatedPermission;
-}
+  
+  async deletePermissionById(id) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      const err = new Error("Invalid permission ID");
+      err.statusCode = 400;
+      throw err;
+    }
+
+    const deleted = await Permission.findByIdAndDelete(id);
+    if (!deleted) {
+      const err = new Error("Permission not found For delete");
+      err.statusCode = 404;
+      throw err;
+    }
+    return deleted;
+  }
 }
 
 module.exports = PermissionService;
