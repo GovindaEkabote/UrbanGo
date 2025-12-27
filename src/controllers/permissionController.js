@@ -83,3 +83,20 @@ exports.getById = async (req, res, next) => {
   }
 };
 
+exports.getByIdForUpdate = async (req, res, next) => {
+  try {
+    const updatePermission = await permissionService.updatePermission(
+      req.params.id,
+      req.body
+    );
+    res.status(200).json({
+      success: true,
+      data: updatePermission,
+    });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({
+      success: false,
+      message: error.message || "Internal server error",
+    });
+  }
+};

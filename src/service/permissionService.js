@@ -59,20 +59,45 @@ class PermissionService {
   }
 
   async getPermissionById(id) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      const err = new Error("Invalid permission ID");
+      err.statusCode = 400;
+      throw err;
+    }
+
+    const permission = await Permission.findById(id);
+    if (!permission) {
+      const err = new Error("Permission not found");
+      err.statusCode = 404;
+      throw err;
+    }
+
+    return permission;
+  }
+
+  async updatePermission(id, updateData) {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     const err = new Error("Invalid permission ID");
     err.statusCode = 400;
     throw err;
   }
 
-  const permission = await Permission.findById(id);
-  if (!permission) {
+  const updatedPermission = await Permission.findOneAndUpdate(
+    { _id: id },            // ✅ filter object
+    { $set: updateData },   // ✅ explicit update
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  if (!updatedPermission) {
     const err = new Error("Permission not found");
     err.statusCode = 404;
     throw err;
   }
 
-  return permission;
+  return updatedPermission;
 }
 }
 
