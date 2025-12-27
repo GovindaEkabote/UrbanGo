@@ -1,4 +1,5 @@
 const PermissionService = require("../service/permissionService");
+const { getPagination } = require("../utils/pagination");
 
 // ✅ Create an instance of the service class
 const permissionService = new PermissionService();
@@ -52,12 +53,18 @@ exports.createBulkPermission = async (req, res, next) => {
 
 exports.getAllPermissions = async (req, res, next) => {
   try {
-    const data = await permissionService.getAllPermission();
+    const { page, limit, skip } = getPagination(req.query);
+
+    const data = await permissionService.getAllPermission({
+      page,
+      limit,
+      skip,
+    });
 
     res.status(200).json({
       success: true,
       count: data.length,
-      data: data,
+      ...data,
     });
   } catch (error) {
     res.status(500).json({

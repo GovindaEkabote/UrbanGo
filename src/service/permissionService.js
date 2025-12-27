@@ -50,12 +50,26 @@ class PermissionService {
     };
   }
 
-  async getAllPermission() {
-    const data = await Permission.find({});
-    if (data.length === 0) {
-      throw new Error("No data available");
-    }
-    return data;
+  async getAllPermission({ page, limit, skip, filters = {} }) {
+    const [data, total] = await Promise.all([
+      Permission.find({ isDeleted: false, ...filters })
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .lean(),
+
+      Permission.countDocuments({ isDeleted: false, ...filters }),
+    ]);
+
+    return {
+      data,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
   }
 
   async getPermissionById(id) {
@@ -99,7 +113,6 @@ class PermissionService {
     return updatedPermission;
   }
 
-  
   async deletePermissionById(id) {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       const err = new Error("Invalid permission ID");
