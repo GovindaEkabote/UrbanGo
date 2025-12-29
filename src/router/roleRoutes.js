@@ -12,7 +12,8 @@ const {
 } =require( "../validators/roleValidator.js");
 
 router.post(
-  "/create-role",
+  "/",
+  // checkPermission("ROLE_CREATE"),
   validateRequest(createRoleSchema),
   roleController.create
 );
