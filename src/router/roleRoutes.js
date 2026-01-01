@@ -24,4 +24,10 @@ router.get(
   roleController.getAll
 )
 
+router.get(
+  "/:id",
+  // checkPermission("ROLE_READ"),
+  roleController.getRoleById
+);
+
 module.exports = router;

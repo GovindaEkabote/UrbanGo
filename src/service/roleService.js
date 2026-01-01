@@ -87,7 +87,7 @@ class RoleService {
   }
 
   async getRoles({ page = 1, limit = 10, isActive }) {
-    const filter = { isActive: true };
+    const filter = { isActive: false };
     if (isActive !== undefined) {
       filter.isActive = isActive;
     }
@@ -109,6 +109,18 @@ class RoleService {
         total,
       },
     };
+  }
+
+  async getById(id) {
+    const role = await Role.findById({
+      _id: id,
+      isDeleted: false,
+    }).populate("permissions");
+
+    if (!role) {
+      throw new Error("Role not found");
+    }
+    return role;
   }
 }
 
