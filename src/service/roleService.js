@@ -12,16 +12,6 @@ class RoleService {
       metadata = {},
     } = data;
 
-    console.log("📥 Received data:", {
-      roleName,
-      displayName,
-      description,
-      permissions,
-      level,
-      metadata,
-      createdBy,
-    });
-
     // Fix validation logic
     if (!roleName || !displayName) {
       throw new Error("roleName and displayName are required");
@@ -39,14 +29,15 @@ class RoleService {
         isActive: true,
         isDeleted: false,
       });
-      
-      console.log("✅ Found permissions:", permissionDocs.length);
-      console.log("📋 Requested permissions:", permissions.length);
-      
+
       if (permissionDocs.length !== permissions.length) {
-        const foundIds = permissionDocs.map(p => p._id.toString());
-        const invalidIds = permissions.filter(id => !foundIds.includes(id.toString()));
-        throw new Error(`Invalid permissions provided: ${invalidIds.join(", ")}`);
+        const foundIds = permissionDocs.map((p) => p._id.toString());
+        const invalidIds = permissions.filter(
+          (id) => !foundIds.includes(id.toString())
+        );
+        throw new Error(
+          `Invalid permissions provided: ${invalidIds.join(", ")}`
+        );
       }
     } else {
       // If no permissions provided, you might want to allow it or not
@@ -61,7 +52,7 @@ class RoleService {
 
     // Check if roleName already exists (case-insensitive)
     const existingRole = await Role.findOne({
-      roleName: { $regex: new RegExp(`^${roleName}$`, 'i') },
+      roleName: { $regex: new RegExp(`^${roleName}$`, "i") },
       isDeleted: false,
     });
 
@@ -93,6 +84,31 @@ class RoleService {
       .lean();
 
     return populatedRole;
+  }
+
+  async getRoles({ page = 1, limit = 10, isActive }) {
+    const filter = { isActive: true };
+    if (isActive !== undefined) {
+      filter.isActive = isActive;
+    }
+    const skip = (page - 1) * limit;
+
+    const roles = await Role.find(filter)
+      .populate("permissions", "permissions name")
+      .skip(skip)
+      .limit(Number(limit))
+      .sort({ createdAt: -1 });
+
+    const total = await Role.countDocuments(filter);
+
+    return {
+      items: roles,
+      pagination: {
+        page: Number(page),
+        limit: Number(limit),
+        total,
+      },
+    };
   }
 }
 

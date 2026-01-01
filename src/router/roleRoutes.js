@@ -18,4 +18,10 @@ router.post(
   roleController.create
 );
 
+router.get(
+  "/",
+  // checkPermission("ROLE_READ"),
+  roleController.getAll
+)
+
 module.exports = router;
