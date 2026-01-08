@@ -135,6 +135,18 @@ class RoleService {
     }
     return role;
   }
+
+  async deleteRole(roleId, adminId) {
+    const role = await Role.findByIdAndDelete(
+      { _id: roleId },
+      { isDeleted: true, deletedAt: new Date() },
+      { new: true }
+    );
+    if (!role) {
+      throw new Error("Role Not Found");
+    }
+    return true;
+  }
 }
 
 module.exports = new RoleService();

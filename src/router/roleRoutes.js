@@ -36,4 +36,10 @@ router.put(
   roleController.updateRoleById
 );
 
+router.delete(
+  "/:id",
+  // checkPermission("ROLE_DELETE"),
+  roleController.deleteRoleById
+);
+
 module.exports = router;

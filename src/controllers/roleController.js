@@ -48,16 +48,27 @@ class RoleController {
   async updateRoleById(req, res) {
     try {
       // const adminId = req.admin._id;
-      const role = await roleService.updateRole(
-        req.params.id,
-        req.body,
-      );
+      const role = await roleService.updateRole(req.params.id, req.body);
       res.json({
         success: true,
         message: "Role updated successfully",
         data: role,
       });
     } catch (error) {
+      console.log("error in Role updated");
+      res.status(400).json({ success: false, message: error.message });
+    }
+  }
+
+  async deleteRoleById(req, res) {
+    try {
+      await roleService.deleteRole(req.params.id);
+      res.json({
+        success: true,
+        message: "Role deleted successfully",
+      });
+    } catch (error) {
+      console.log("error in Role delete");
       res.status(400).json({ success: false, message: error.message });
     }
   }
