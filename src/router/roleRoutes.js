@@ -30,4 +30,10 @@ router.get(
   roleController.getRoleById
 );
 
+router.put(
+  "/:id",
+  // checkPermission("ROLE_UPDATE"),
+  roleController.updateRoleById
+);
+
 module.exports = router;

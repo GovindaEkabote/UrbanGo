@@ -122,6 +122,19 @@ class RoleService {
     }
     return role;
   }
+
+  async updateRole(roleId, data, adminId) {
+    const role = await Role.findByIdAndUpdate(
+      { _id: roleId, isDeleted: false },
+      { ...data },
+      { new: true, runValidators: true }
+    ).populate("permissions");
+
+    if (!role) {
+      throw new Error("Role not found");
+    }
+    return role;
+  }
 }
 
 module.exports = new RoleService();

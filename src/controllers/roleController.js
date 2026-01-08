@@ -44,6 +44,23 @@ class RoleController {
       res.status(404).json({ success: false, message: error.message });
     }
   }
+
+  async updateRoleById(req, res) {
+    try {
+      // const adminId = req.admin._id;
+      const role = await roleService.updateRole(
+        req.params.id,
+        req.body,
+      );
+      res.json({
+        success: true,
+        message: "Role updated successfully",
+        data: role,
+      });
+    } catch (error) {
+      res.status(400).json({ success: false, message: error.message });
+    }
+  }
 }
 
 module.exports = new RoleController();
