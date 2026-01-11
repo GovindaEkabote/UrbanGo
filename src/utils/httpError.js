@@ -3,7 +3,7 @@ const responseMessage = require('../constant/responseMessage')
 const config = require('../config/config')
 const { EApplicationEnvironment } = require('../constant/application')
 
-const httpError = (req, res, err, errorStatusCode = null) => {
+function httpError(req, res, err, errorStatusCode = null) {
     try {
         // Validate required parameters
         if (!req || !res) {
@@ -14,18 +14,18 @@ const httpError = (req, res, err, errorStatusCode = null) => {
             throw new Error('Error object is required')
         }
 
-        // Extract error information with better handling
+        // Extract error information
         const message = err.message || responseMessage.SOMETHING_WENT_WRONG
         const trace = err.stack || null
         
-        // Determine status code with priority: parameter > error.status > error.statusCode > default 500
+        // Determine status code
         const statusCode = errorStatusCode || err.status || err.statusCode || 500
 
         // Create the error response
         const response = createHttpError({
             statusCode,
             message,
-            data: err.data || null, // Allow passing additional error data
+            data: err.data || null,
             trace,
             req
         })
@@ -33,7 +33,7 @@ const httpError = (req, res, err, errorStatusCode = null) => {
         // Production environment sanitization
         if (config.ENV === EApplicationEnvironment.PRODUCTION) {
             delete response.request.ip
-            delete response.trace // This was missing in your original code
+            delete response.trace
         }
 
         // Log the error (uncomment when logger is available)

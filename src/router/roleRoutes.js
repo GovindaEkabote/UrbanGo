@@ -11,6 +11,9 @@ const {
   assignPermissionsSchema,
 } =require( "../validators/roleValidator.js");
 
+
+// router.use(authAdmin);
+
 router.post(
   "/",
   // checkPermission("ROLE_CREATE"),
@@ -33,6 +36,7 @@ router.get(
 router.put(
   "/:id",
   // checkPermission("ROLE_UPDATE"),
+ validateRequest(updateRoleSchema),
   roleController.updateRoleById
 );
 

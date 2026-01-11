@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const roleRoutes = require("./router/roleRoutes")
 const permissionRoutes = require("./router/permissionRoutes")
+const adminRoutes = require("./router/adminRouter")
 const globalErrorHandler = require("./middleware/globalErrorHandler");
 const securityMiddleware = require("./config/security");
 const rateLimitMiddleware = require("./config/rate-limiter");
@@ -25,6 +26,7 @@ app.use('/api/v1', require('./router/auth'))
 
 app.use("/api/v1/role",roleRoutes )
 app.use("/api/v1/permission",permissionRoutes )
+app.use("/api/v1/admin",adminRoutes )
 
 // 404 handler for unmatched routes
 app.use((req, res, next) => {

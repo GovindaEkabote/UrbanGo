@@ -1,6 +1,6 @@
 // models/RefreshToken.js
-import mongoose from "mongoose";
-import { v4 as uuidv4 } from "uuid";
+const mongoose = require('mongoose')
+const { v4: uuidv4 } = require("uuid");
 
 const RefreshTokenSchema = new mongoose.Schema(
   {
@@ -39,4 +39,4 @@ const RefreshTokenSchema = new mongoose.Schema(
 // TTL index for automatic cleanup (optional: set in DB to expire docs after long time)
 RefreshTokenSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
-export default mongoose.model("RefreshToken", RefreshTokenSchema);
+module.exports = mongoose.model("RefreshToken", RefreshTokenSchema);
