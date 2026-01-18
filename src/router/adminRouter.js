@@ -15,5 +15,6 @@ router.post(
 
 router.post('/login', adminController.login)
 
+router.post('/logout', authAdmin, adminController.logout)
 
 module.exports = router

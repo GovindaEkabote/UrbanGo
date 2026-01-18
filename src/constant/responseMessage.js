@@ -33,5 +33,6 @@ module.exports = {
         }
         
         return messages[error.name] || messages.default
-    }
+    },
+    LOGOUT_SUCCESS:"Logout Success"
 }

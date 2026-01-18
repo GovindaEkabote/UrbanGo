@@ -72,5 +72,15 @@ class AdminService {
 
     return { admin, accessToken, refreshToken };
   }
+
+  async logout({ adminId, refreshToken }) {
+    if (!refreshToken) {
+      return;
+    }
+    await ReferenceToken.deleteOne({
+      admin: adminId,
+      token: refreshToken,
+    });
+  }
 }
 module.exports = new AdminService();
