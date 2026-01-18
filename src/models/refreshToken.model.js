@@ -14,7 +14,7 @@ const RefreshTokenSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Admin",
       required: true,
-      index: true,
+      // index: true,
     },
     token: { type: String, required: true, index: true },
     createdAt: { type: Date, default: Date.now, index: true },

@@ -1,4 +1,5 @@
 const express = require("express");
+var cookieParser = require('cookie-parser')
 const path = require("path");
 const roleRoutes = require("./router/roleRoutes")
 const permissionRoutes = require("./router/permissionRoutes")
@@ -13,6 +14,7 @@ app.use(securityMiddleware.cors);
 app.use(securityMiddleware.helmet);
 
 app.use(express.json());
+app.use(cookieParser())
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "../", "public")));
 // Apply general rate limiting to all routes

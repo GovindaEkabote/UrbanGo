@@ -7,10 +7,13 @@ const checkPermission = require("../middleware/permissions");
 // Admin management
 router.post(
   "/",
-//   authAdmin,
-//   checkPermission("ADMINS:CREATE"),
+  authAdmin,
+  checkPermission("ADMINS:CREATE"),
   adminController.createAdmin
 );
+
+
+router.post('/login', adminController.login)
 
 
 module.exports = router
