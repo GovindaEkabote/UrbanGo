@@ -45,20 +45,20 @@ class AdminService {
     const accessToken = jwt.sign(
       { adminId: admin._id, roleId: admin.roleId._id },
       config.JWT_SECRET,
-      { expiresIn: config.JWT_EXPIRES_IN }
+      { expiresIn: config.JWT_EXPIRES_IN },
     );
 
     // 🔁 REFRESH TOKEN
     const refreshToken = jwt.sign(
       { adminId: admin._id },
       config.ADMIN_JWT_SECRET,
-      { expiresIn: `${config.REFRESH_TOKEN_EXPIRES_DAYS}d` }
+      { expiresIn: `${config.REFRESH_TOKEN_EXPIRES_DAYS}d` },
     );
 
     // 📅 Absolute expiry
     const expiresAt = new Date();
     expiresAt.setDate(
-      expiresAt.getDate() + Number(config.REFRESH_TOKEN_EXPIRES_DAYS)
+      expiresAt.getDate() + Number(config.REFRESH_TOKEN_EXPIRES_DAYS),
     );
 
     // 💾 Save refresh token
@@ -81,6 +81,26 @@ class AdminService {
       admin: adminId,
       token: refreshToken,
     });
+  }
+
+  async getMyProfile(adminId) {
+    const admin = await Admin.findOne({
+      _id: adminId,
+      isDeleted: false,
+    })
+      .select("-password")
+      .populate({
+        path: "roleId",
+        select: "roleName level isSystemRole",
+        populate: {
+          path: "permissions",
+          select: "key",
+        },
+      });
+    if (!admin) {
+      throw { message: responseMessage.ADMIN_NOT_FOUND, statusCode: 404 };
+    }
+    return admin;
   }
 }
 module.exports = new AdminService();

@@ -9,12 +9,13 @@ router.post(
   "/",
   authAdmin,
   checkPermission("ADMINS:CREATE"),
-  adminController.createAdmin
+  adminController.createAdmin,
 );
 
+router.post("/login", adminController.login);
 
-router.post('/login', adminController.login)
+router.post("/logout", authAdmin, adminController.logout);
 
-router.post('/logout', authAdmin, adminController.logout)
+router.get("/me", authAdmin, adminController.getMyProfile);
 
-module.exports = router
+module.exports = router;

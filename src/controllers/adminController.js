@@ -9,7 +9,7 @@ class adminController {
     try {
       const admin = await AdminService.createAdmin(
         req.body,
-        req.admin?._id || null
+        req.admin?._id || null,
       );
 
       return httpResponse(req, res, 201, responseMessage.ADMIN_CREATED, admin);
@@ -63,7 +63,22 @@ class adminController {
       res.clearCookie("accessToken");
       return httpResponse(req, res, 200, responseMessage.LOGOUT_SUCCESS);
     } catch (error) {
-      return httpError(req, res, error)
+      return httpError(req, res, error);
+    }
+  }
+
+  async getMyProfile(req, res) {
+    try {
+      const admin = await AdminService.getMyProfile(req.admin._id);
+      return httpResponse(
+        req,
+        res,
+        200,
+        responseMessage.PROFILE_FETCHED || "Profile fetched successfully",
+        admin,
+      );
+    } catch (error) {
+      return httpError(req, res, error);
     }
   }
 }

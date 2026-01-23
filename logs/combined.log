@@ -3197,3 +3197,15 @@
 {"environment":"production","level":"info","message":"APPLICATION_STARTING","port":"3000","serverUrl":"http://localhost:3000","service":"urbango-api","timestamp":"2026-01-18 11:02:04"}
 {"level":"info","message":"DATABASE_CONNECTED","service":"urbango-api","status":"connected","timestamp":"2026-01-18 11:02:04","url":"mongodb://localhost:27017/urbango"}
 {"environment":"production","level":"info","message":"APPLICATION_STARTED","port":"3000","serverUrl":"http://localhost:3000","service":"urbango-api","status":"running","timestamp":"2026-01-18 11:02:04"}
+{"environment":"production","level":"info","message":"APPLICATION_STARTING","port":"3000","serverUrl":"http://localhost:3000","service":"urbango-api","timestamp":"2026-01-18 11:02:09"}
+{"level":"info","message":"DATABASE_CONNECTED","service":"urbango-api","status":"connected","timestamp":"2026-01-18 11:02:09","url":"mongodb://localhost:27017/urbango"}
+{"environment":"production","level":"info","message":"APPLICATION_STARTED","port":"3000","serverUrl":"http://localhost:3000","service":"urbango-api","status":"running","timestamp":"2026-01-18 11:02:09"}
+{"environment":"production","level":"info","message":"APPLICATION_STARTING","port":"3000","serverUrl":"http://localhost:3000","service":"urbango-api","timestamp":"2026-01-18 11:12:11"}
+{"level":"info","message":"DATABASE_CONNECTED","service":"urbango-api","status":"connected","timestamp":"2026-01-18 11:12:11","url":"mongodb://localhost:27017/urbango"}
+{"environment":"production","level":"info","message":"APPLICATION_STARTED","port":"3000","serverUrl":"http://localhost:3000","service":"urbango-api","status":"running","timestamp":"2026-01-18 11:12:11"}
+{"environment":"production","level":"info","message":"APPLICATION_STARTING","port":"3000","serverUrl":"http://localhost:3000","service":"urbango-api","timestamp":"2026-01-18 11:12:28"}
+{"level":"info","message":"DATABASE_CONNECTED","service":"urbango-api","status":"connected","timestamp":"2026-01-18 11:12:28","url":"mongodb://localhost:27017/urbango"}
+{"environment":"production","level":"info","message":"APPLICATION_STARTED","port":"3000","serverUrl":"http://localhost:3000","service":"urbango-api","status":"running","timestamp":"2026-01-18 11:12:28"}
+{"environment":"production","level":"info","message":"APPLICATION_STARTING","port":"3000","serverUrl":"http://localhost:3000","service":"urbango-api","timestamp":"2026-01-23 16:39:49"}
+{"level":"info","message":"DATABASE_CONNECTED","service":"urbango-api","status":"connected","timestamp":"2026-01-23 16:39:49","url":"mongodb://localhost:27017/urbango"}
+{"environment":"production","level":"info","message":"APPLICATION_STARTED","port":"3000","serverUrl":"http://localhost:3000","service":"urbango-api","status":"running","timestamp":"2026-01-23 16:39:49"}
